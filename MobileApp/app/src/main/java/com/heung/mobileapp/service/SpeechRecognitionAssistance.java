@@ -15,8 +15,10 @@ import java.util.List;
 
 public class SpeechRecognitionAssistance {
     private SpeechRecognizer speechRecognizer;
+    private MainActivity main;
 
     public SpeechRecognitionAssistance(MainActivity mainActivity){
+        main = mainActivity;
         if (speechRecognizer.isRecognitionAvailable(mainActivity)){
             speechRecognizer = SpeechRecognizer.createSpeechRecognizer(mainActivity);
             speechRecognizer.setRecognitionListener(new RecognitionListener() {
@@ -37,7 +39,7 @@ public class SpeechRecognitionAssistance {
 
                 @Override
                 public void onError(int error) {
-                    System.out.println("error!");
+                    MainActivity.isListening = true;
                 }
 
                 @Override
@@ -46,13 +48,10 @@ public class SpeechRecognitionAssistance {
                 }
 
                 @Override
-                public void onEvent(int eventType, Bundle params) {
-                    System.out.println("params!");
-                }
+                public void onEvent(int eventType, Bundle params) { }
 
                 @Override
                 public void onResults(Bundle results) {
-                    System.out.println("Called!");
                     processSpeech(results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION).get(0));
                 }
             });
@@ -60,8 +59,9 @@ public class SpeechRecognitionAssistance {
     }
 
     private void processSpeech(String speech){
-        System.out.println("Called!");
         System.out.println(speech);
+        MainActivity.isListening = false;
+        main.openCamera();
     }
 
     public void startListening(){
