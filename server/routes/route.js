@@ -2,6 +2,7 @@ const express = require('express');
 const controller = require('../controllers/controller');
 const associateController = require('../controllers/controller.associate');
 const userController = require('../controllers/controller.user');
+const avayaController = require("../controllers/controller.avaya");
 
 const router = express.Router();
 
@@ -20,5 +21,8 @@ router.route('/user/:id').delete(userController.deleteUser);
 router.route('/associate/:userId').get(associateController.findAssociatesByUserId);
 router.route('/associate').post(associateController.addAssociate);
 router.route('/associate/:id').delete(associateController.deleteAssociate);
+
+router.route('/sendTextMessage').post(avayaController.sendTextMessage);
+//router.route('/sendCallMessage').post(avayaController.sendCallMessage);
 
 module.exports = router;
