@@ -1,7 +1,9 @@
 package com.heung.mobileapp;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.graphics.Color;
+import android.os.Build;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -12,10 +14,22 @@ import android.widget.ImageView;
 public class MainActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        try{
+            this.getSupportActionBar().hide();
+        }
+        catch (NullPointerException e){
+            setContentView(R.layout.activity_main);
+        }
+        setStatusBarColor(Color.BLACK);
+    }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void setStatusBarColor (int color){
+        getWindow().setStatusBarColor(color);
     }
 
     public void openCamera(View view){
