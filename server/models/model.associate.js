@@ -6,7 +6,8 @@ let AssociateShema = new Schema({
     name:String,
     relationship:String,
     email:String,
-    address:String,
+    phone: Number,
+    address:String
 });
 
-module.exports = mongoose.module('AssociateSchema', AssociateShema);
+module.exports = mongoose.model('AssociateSchema', AssociateShema);

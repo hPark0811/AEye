@@ -5,6 +5,7 @@ let UserShema = new Schema({
     email:String,
     password:String,
     name:String,
+    phone:Number,
     address:String,
     postalCode:String,
     city:String,
@@ -12,4 +13,4 @@ let UserShema = new Schema({
     country:String
 });
 
-module.exports = mongoose.module('User', UserShema);
+module.exports = mongoose.model('User', UserShema);
