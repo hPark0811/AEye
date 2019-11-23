@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">MobileApp</string>
+    <string name="app_name">My Application</string>
+    <string name="Logo">A</string>
+    <string name="Start">Start</string>
 </resources>
