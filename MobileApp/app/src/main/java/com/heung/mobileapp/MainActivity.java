@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
+    public void onClick (View view) {
+        startActivity(new Intent(MainActivity.this, RecordingActivity.class));
+    }
 
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
