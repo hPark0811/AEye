@@ -6,9 +6,14 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 
+import com.heung.mobileapp.service.SpeechRecognitionAssistance;
+import com.heung.mobileapp.service.TextToSpeechAssistance;
+
 
 public class MainActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    private TextToSpeechAssistance myTTS;
+    private SpeechRecognitionAssistance SRA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
         catch (NullPointerException e){
             setContentView(R.layout.activity_main);
         }
+
+        SRA = new SpeechRecognitionAssistance(this);
+        myTTS = new TextToSpeechAssistance(this);
     }
 
     public void openCamera(View view){
@@ -38,4 +46,5 @@ public class MainActivity extends AppCompatActivity {
 //            imgTaken.setImageBitmap(imageBitmap);
 //        }
 //    }
+
 }
