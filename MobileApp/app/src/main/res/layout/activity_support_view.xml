@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@color/colorWhite"
+    >
+
+    <ScrollView
+        android:layout_width="409dp"
+        android:layout_height="601dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="50dp"
+                android:text="@string/lorem"
+                android:background="@drawable/message_background"
+                android:padding="10dp"
+                android:textColor="@color/colorWhite"/>
+
+            <TextView
+                android:id="@+id/textView28"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="150dp"
+                android:layout_marginLeft="150dp"
+                android:layout_marginEnd="70dp"
+                android:layout_marginRight="70dp"
+                android:gravity="right"
+                android:text="@string/date" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="50dp"
+                android:text="@string/lorem"
+                android:background="@drawable/message_background"
+                android:padding="10dp"
+                android:textColor="@color/colorWhite"/>
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="150dp"
+                android:layout_marginLeft="150dp"
+                android:layout_marginEnd="70dp"
+                android:layout_marginRight="70dp"
+                android:gravity="right"
+                android:text="@string/date" />
+            <TextView
+            android:id="@+id/textView13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="50dp"
+            android:text="@string/lorem"
+            android:background="@drawable/message_background"
+            android:padding="10dp"
+            android:textColor="@color/colorWhite"/>
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="150dp"
+                android:layout_marginLeft="150dp"
+                android:layout_marginEnd="70dp"
+                android:layout_marginRight="70dp"
+                android:gravity="right"
+                android:text="@string/date" />
+            <TextView
+            android:id="@+id/textView15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="50dp"
+            android:text="@string/lorem"
+            android:background="@drawable/message_background"
+            android:padding="10dp"
+            android:textColor="@color/colorWhite"/>
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="150dp"
+                android:layout_marginLeft="150dp"
+                android:layout_marginEnd="70dp"
+                android:layout_marginRight="70dp"
+                android:gravity="right"
+                android:text="@string/date" />
+            <TextView
+            android:id="@+id/textView17"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="50dp"
+            android:text="@string/lorem"
+            android:background="@drawable/message_background"
+            android:padding="10dp"
+            android:textColor="@color/colorWhite"/>
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="150dp"
+                android:layout_marginLeft="150dp"
+                android:layout_marginEnd="70dp"
+                android:layout_marginRight="70dp"
+                android:gravity="right"
+                android:text="@string/date" />
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
