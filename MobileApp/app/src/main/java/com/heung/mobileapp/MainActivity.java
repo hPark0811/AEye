@@ -20,14 +20,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_create_account);
+        startActivity(new Intent(MainActivity.this, CreateUserActivity.class));
         try{
             this.getSupportActionBar().hide();
         }
         catch (NullPointerException e){
             setContentView(R.layout.activity_main);
         }
-
         SRA = new SpeechRecognitionAssistance(this);
         myTTS = new TextToSpeechAssistance(this);
     }
