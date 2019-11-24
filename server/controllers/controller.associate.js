@@ -31,5 +31,4 @@ exports.deleteAssociate = function(req, res){
             res.send(err);
         res.send("Deleted successfully")
     });
-}
-
+};

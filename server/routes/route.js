@@ -23,6 +23,6 @@ router.route('/associate').post(associateController.addAssociate);
 router.route('/associate/:id').delete(associateController.deleteAssociate);
 
 router.route('/sendTextMessage').post(avayaController.sendTextMessage);
-//router.route('/sendCallMessage').post(avayaController.sendCallMessage);
+router.route('/sendCallMessage').post(avayaController.sendCallMessage);
 
 module.exports = router;
