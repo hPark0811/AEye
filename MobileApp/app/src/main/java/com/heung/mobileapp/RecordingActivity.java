@@ -3,6 +3,7 @@ package com.heung.mobileapp;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
@@ -47,15 +48,7 @@ public class RecordingActivity extends AppCompatActivity {
         catch (Exception e){
             e.printStackTrace();
         }
-        Display display = ((WindowManager)getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
-
-        if(display.getRotation() == Surface.ROTATION_0) {
-            camera.setDisplayOrientation(90);
-        }
-
-        if(display.getRotation() == Surface.ROTATION_270) {
-            camera.setDisplayOrientation(180);
-        }
+        camera.setDisplayOrientation(90);
         camPreview = new CameraPreview(this, camera);
         preview.addView(camPreview);
     }
@@ -79,6 +72,7 @@ public class RecordingActivity extends AppCompatActivity {
 
     private void gatherFrames(byte[] data, Camera camera){
         Parameters parameters = camera.getParameters();
+        x++;
         if (parameters.getPreviewFormat() == ImageFormat.NV21 && x%50 == 0)
         {
             Camera.Size size = parameters.getPreviewSize();
@@ -87,7 +81,9 @@ public class RecordingActivity extends AppCompatActivity {
             yuvimage.compressToJpeg(new Rect(0, 0, size.width, size.height), 80, baos);
             byte[] jdata = baos.toByteArray();
             Bitmap bmp = BitmapFactory.decodeByteArray(jdata, 0, jdata.length);
-            saveImage(bmp, "name" + x);
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90);
+            saveImage(Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true), "name" + x);
         }
 
     }
