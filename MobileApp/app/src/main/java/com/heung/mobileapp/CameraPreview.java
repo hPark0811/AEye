@@ -5,6 +5,8 @@ import android.hardware.Camera;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.heung.mobileapp.service.Vibration;
+
 import java.io.IOException;
 
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
@@ -13,6 +15,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     public CameraPreview(Context context, Camera camera){
         super(context);
+        Vibration.context = context;
         this.camera = camera;
         surfaceHolder = getHolder();
         surfaceHolder.addCallback(this);

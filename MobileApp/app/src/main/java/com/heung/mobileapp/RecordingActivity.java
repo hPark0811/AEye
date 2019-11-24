@@ -10,12 +10,11 @@ import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.Display;
-import android.view.Surface;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.heung.mobileapp.service.APIManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -57,7 +56,7 @@ public class RecordingActivity extends AppCompatActivity {
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root);
         myDir.mkdirs();
-        String fname = "Image-" + image_name+ ".jpeg";
+        String fname = "Image.jpeg";
         File file = new File(myDir, fname);
         if (file.exists()) file.delete();
         try {
@@ -65,6 +64,7 @@ public class RecordingActivity extends AppCompatActivity {
             finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
             out.flush();
             out.close();
+            APIManager.getVisualRecognitionData(file);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -73,7 +73,7 @@ public class RecordingActivity extends AppCompatActivity {
     private void gatherFrames(byte[] data, Camera camera){
         Parameters parameters = camera.getParameters();
         x++;
-        if (parameters.getPreviewFormat() == ImageFormat.NV21 && x%50 == 0)
+        if (parameters.getPreviewFormat() == ImageFormat.NV21 && x%100 == 0)
         {
             Camera.Size size = parameters.getPreviewSize();
             YuvImage yuvimage = new YuvImage(data, ImageFormat.NV21, size.width, size.height, null);
@@ -83,7 +83,8 @@ public class RecordingActivity extends AppCompatActivity {
             Bitmap bmp = BitmapFactory.decodeByteArray(jdata, 0, jdata.length);
             Matrix matrix = new Matrix();
             matrix.postRotate(90);
-            saveImage(Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true), "name" + x);
+            saveImage(Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true), "name");
+            x = 0;
         }
 
     }
