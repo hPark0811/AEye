@@ -1,17 +1,29 @@
 package com.heung.mobileapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.ImageFormat;
+import android.graphics.Rect;
+import android.graphics.YuvImage;
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+
 public class RecordingActivity extends AppCompatActivity {
     private Camera camera;
     private CameraPreview camPreview;
+    int x = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,35 +32,63 @@ public class RecordingActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Record");
         getSupportActionBar().show();
 
+        FrameLayout preview = findViewById(R.id.cam_preview);
+
         if (camera != null) {
             camera.release();
         }
         camera = null;
+        Camera.PreviewCallback previewCallback = (data, camera) -> gatherFrames(data, camera);
         try {
             camera = Camera.open(); // attempt to get a Camera instance
+            camera.setPreviewCallback(previewCallback);
             System.out.println("Got camera!");
         }
         catch (Exception e){
             e.printStackTrace();
         }
-        Camera.Parameters parameters = camera.getParameters();
         Display display = ((WindowManager)getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
 
         if(display.getRotation() == Surface.ROTATION_0) {
             camera.setDisplayOrientation(90);
         }
 
-        if(display.getRotation() == Surface.ROTATION_90) {
-        }
-
-        if(display.getRotation() == Surface.ROTATION_180) {
-        }
-
         if(display.getRotation() == Surface.ROTATION_270) {
             camera.setDisplayOrientation(180);
         }
         camPreview = new CameraPreview(this, camera);
-        FrameLayout preview = findViewById(R.id.cam_preview);
         preview.addView(camPreview);
+    }
+
+    private void saveImage(Bitmap finalBitmap, String image_name) {
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root);
+        myDir.mkdirs();
+        String fname = "Image-" + image_name+ ".jpeg";
+        File file = new File(myDir, fname);
+        if (file.exists()) file.delete();
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void gatherFrames(byte[] data, Camera camera){
+        Parameters parameters = camera.getParameters();
+        if (parameters.getPreviewFormat() == ImageFormat.NV21 && x%50 == 0)
+        {
+            Camera.Size size = parameters.getPreviewSize();
+            YuvImage yuvimage = new YuvImage(data, ImageFormat.NV21, size.width, size.height, null);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            yuvimage.compressToJpeg(new Rect(0, 0, size.width, size.height), 80, baos);
+            byte[] jdata = baos.toByteArray();
+            Bitmap bmp = BitmapFactory.decodeByteArray(jdata, 0, jdata.length);
+            saveImage(bmp, "name" + x);
+        }
+
     }
 }

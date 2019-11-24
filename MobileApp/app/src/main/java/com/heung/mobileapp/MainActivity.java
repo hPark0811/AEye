@@ -10,13 +10,12 @@ import android.view.View;
 import com.heung.mobileapp.service.SpeechRecognitionAssistance;
 import com.heung.mobileapp.service.TextToSpeechAssistance;
 
-
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class MainActivity extends AppCompatActivity {
     private TextToSpeechAssistance myTTS;
     private SpeechRecognitionAssistance SRA;
     public static boolean isListening = false;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,10 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
         SRA = new SpeechRecognitionAssistance(this);
         myTTS = new TextToSpeechAssistance(this);
-
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void promptUser(View view){
         if (!isListening){
             isListening = true;
