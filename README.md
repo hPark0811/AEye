@@ -1,2 +1,2 @@
 # AEye
-Assistance Mobile Application for Visually Impared User
+Assistance Mobile Application for Visually Impaired User
