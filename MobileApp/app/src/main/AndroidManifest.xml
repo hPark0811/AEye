@@ -19,14 +19,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".RecordingActivity"></activity>
-        <activity android:name=".CreateUserActivity" />
-        <activity android:name=".SupportViewActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".CreateUserActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".SupportViewActivity" />
+        <activity android:name=".AddAssociateActivity" />
+        <activity android:name=".MainActivity">
         </activity>
     </application>
 

@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         catch (NullPointerException e){
             setContentView(R.layout.activity_main);
         }
-
         SRA = new SpeechRecognitionAssistance(this);
         myTTS = new TextToSpeechAssistance(this);
     }
