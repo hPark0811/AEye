@@ -1,6 +1,9 @@
 const User = require('../models/model.user');
 
 exports.addUser = function(req, res){
+    if (isNaN(req.body.phone)){
+        res.send('Incorrect!');
+    }
     let user = new User({
         email: req.body.email,
         name: req.body.name,
