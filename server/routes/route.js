@@ -25,4 +25,7 @@ router.route('/associate/:id').delete(associateController.deleteAssociate);
 router.route('/sendTextMessage').post(avayaController.sendTextMessage);
 router.route('/sendCallMessage').post(avayaController.sendCallMessage);
 
+router.route('/sendTextMessageToAll').post(avayaController.sendTextMessageToAll);
+router.route('/sendCallMessageToAll').post(avayaController.sendCallMessageToAll);
+
 module.exports = router;
