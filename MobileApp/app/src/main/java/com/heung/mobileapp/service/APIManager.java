@@ -5,7 +5,9 @@ import com.ibm.cloud.sdk.core.security.IamAuthenticator;
 import com.ibm.cloud.sdk.core.service.BaseService;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.watson.visual_recognition.v4.VisualRecognition;
-import com.ibm.watson.visual_recognition.v4.model.*;
+import com.ibm.watson.visual_recognition.v4.model.AnalyzeOptions;
+import com.ibm.watson.visual_recognition.v4.model.AnalyzeResponse;
+import com.ibm.watson.visual_recognition.v4.model.ObjectDetail;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -1,11 +1,12 @@
 package com.heung.mobileapp;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.heung.mobileapp.service.SpeechRecognitionAssistance;
 import com.heung.mobileapp.service.TextToSpeechAssistance;
@@ -32,11 +33,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void promptUser(View view){
-        if (!isListening){
-            isListening = true;
-            myTTS.speak("What would you like to find?");
-            myTTS.listenToResponseAfter(SRA);
+        try {
+            if (!isListening){
+                isListening = true;
+                myTTS.speak("What would you like to find?");
+                myTTS.listenToResponseAfter(SRA);
+            }
+        } catch (Exception e){
+            isListening = false;
         }
+
     }
 
     public void openCamera(String toPass){
