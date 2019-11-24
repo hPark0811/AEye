@@ -11,6 +11,7 @@ import android.hardware.Camera.Parameters;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -24,7 +25,11 @@ import com.heung.mobileapp.service.TextToSpeechAssistance;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.concurrent.TimeUnit;
 
+import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
+
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class RecordingActivity extends AppCompatActivity {
     private Camera camera;
     private CameraPreview camPreview;
@@ -32,8 +37,8 @@ public class RecordingActivity extends AppCompatActivity {
     private String selected;
     private TextToSpeechAssistance myTTS;
     private SpeechRecognitionAssistance SRA;
+    public static boolean isListening = false;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +47,7 @@ public class RecordingActivity extends AppCompatActivity {
         getSupportActionBar().show();
 
         selected = getIntent().getExtras().getString("selected");
-        ((TextView)findViewById(R.id.search)).setText("selected");
+        ((TextView)findViewById(R.id.search)).setText(selected);
         FrameLayout preview = findViewById(R.id.cam_preview);
 
         if (camera != null) {
@@ -61,10 +66,21 @@ public class RecordingActivity extends AppCompatActivity {
         camera.setDisplayOrientation(90);
         camPreview = new CameraPreview(this, camera);
         preview.addView(camPreview);
-
         myTTS = new TextToSpeechAssistance(this);
-        /*myTTS.speak("Looking for " + selected);
-        System.out.println("Looking for " + selected);*/
+        SRA = new SpeechRecognitionAssistance(this);
+    }
+
+    public void promptUser(View view){
+        try {
+            if (!isListening){
+                isListening = true;
+                myTTS.speak("Seems like you're having trouble finding " + selected + ". Would you like to request help to your primary contacts?");
+                myTTS.listenToResponseAfter(SRA);
+            }
+        } catch (Exception e){
+            isListening = false;
+        }
+
     }
 
     private void saveImage(Bitmap finalBitmap, String image_name) {
@@ -86,21 +102,22 @@ public class RecordingActivity extends AppCompatActivity {
     }
 
     private void gatherFrames(byte[] data, Camera camera){
-        Parameters parameters = camera.getParameters();
-        x++;
-        if (parameters.getPreviewFormat() == ImageFormat.NV21 && x%100 == 0)
-        {
-            Camera.Size size = parameters.getPreviewSize();
-            YuvImage yuvimage = new YuvImage(data, ImageFormat.NV21, size.width, size.height, null);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            yuvimage.compressToJpeg(new Rect(0, 0, size.width, size.height), 80, baos);
-            byte[] jdata = baos.toByteArray();
-            Bitmap bmp = BitmapFactory.decodeByteArray(jdata, 0, jdata.length);
-            Matrix matrix = new Matrix();
-            matrix.postRotate(90);
-            saveImage(Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true), "name");
-            x = 0;
-        }
-
+        try {
+            Parameters parameters = camera.getParameters();
+            x++;
+            if (parameters.getPreviewFormat() == ImageFormat.NV21 && x%30 == 0)
+            {
+                Camera.Size size = parameters.getPreviewSize();
+                YuvImage yuvimage = new YuvImage(data, ImageFormat.NV21, size.width, size.height, null);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                yuvimage.compressToJpeg(new Rect(0, 0, size.width, size.height), 80, baos);
+                byte[] jdata = baos.toByteArray();
+                Bitmap bmp = BitmapFactory.decodeByteArray(jdata, 0, jdata.length);
+                Matrix matrix = new Matrix();
+                matrix.postRotate(90);
+                saveImage(Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true), "name");
+                x = 0;
+            }
+        } catch (Exception Ignore) { }
     }
 }

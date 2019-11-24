@@ -8,15 +8,17 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.heung.mobileapp.MainActivity;
+import com.heung.mobileapp.RecordingActivity;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class SpeechRecognitionAssistance {
     private SpeechRecognizer speechRecognizer;
-    private MainActivity main;
+    private AppCompatActivity main;
 
-    public SpeechRecognitionAssistance(MainActivity mainActivity){
+    public SpeechRecognitionAssistance(AppCompatActivity mainActivity){
         main = mainActivity;
         if (speechRecognizer.isRecognitionAvailable(mainActivity)){
             speechRecognizer = SpeechRecognizer.createSpeechRecognizer(mainActivity);
@@ -58,13 +60,27 @@ public class SpeechRecognitionAssistance {
 
     private void processSpeech(String speech){
         String toPass;
-        if (speech.contains("c")){
-            toPass = "cup";
+        if (main instanceof MainActivity){
+            if (speech.contains("c")){
+                toPass = "cup";
+            } else if (speech.contains("m")){
+                toPass = "mouse";
+            } else {
+                toPass = "pen";
+            }
+            MainActivity.isListening = false;
+            ((MainActivity)main).openCamera(toPass);
         } else {
-            toPass = "mouse";
+            if (speech.contains("y")){
+                toPass = "yes";
+            } else {
+                toPass = "no";
+            }
+            RecordingActivity.isListening = false;
+            System.out.println(toPass);
+            //@TODO MAKE MESSAGE
         }
-        MainActivity.isListening = false;
-        main.openCamera(toPass);
+
     }
 
     public void startListening(){

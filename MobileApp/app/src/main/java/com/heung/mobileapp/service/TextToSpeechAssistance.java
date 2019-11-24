@@ -2,10 +2,14 @@ package com.heung.mobileapp.service;
 
 import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
 import android.speech.tts.TextToSpeech;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.heung.mobileapp.MainActivity;
+import com.heung.mobileapp.RecordingActivity;
 
 import java.util.Locale;
 
@@ -20,7 +24,12 @@ public class TextToSpeechAssistance {
                 mainActivity.finish();
             }
             TTS.setLanguage(Locale.US);
-            speak("Welcome to A-Eye! Please touch anywhere on the screen to begin!");
+            if (mainActivity instanceof MainActivity){
+                speak("Welcome to A-Eye! Please touch anywhere on the screen to begin!");
+            }
+            if (mainActivity instanceof RecordingActivity){
+                speak("Please move your camera slowly.");
+            }
         });
     }
 
@@ -29,23 +38,16 @@ public class TextToSpeechAssistance {
     }
 
     public void listenToResponseAfter(SpeechRecognitionAssistance SRA){
-
         final Handler h = new Handler();
-
         Runnable r = new Runnable() {
-
-
             public void run() {
-
                 if (!TTS.isSpeaking()) {
                     SRA.startListening();
                     return;
                 }
-
                 h.postDelayed(this, 1000);
             }
         };
-
         h.postDelayed(r, 1000);
     }
 
