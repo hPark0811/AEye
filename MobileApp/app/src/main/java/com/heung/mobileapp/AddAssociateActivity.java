@@ -16,6 +16,7 @@ public class AddAssociateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_associate);
+        getSupportActionBar().setTitle("Add Assistant");
     }
 
     public void AddAssociate(View view) throws Exception{

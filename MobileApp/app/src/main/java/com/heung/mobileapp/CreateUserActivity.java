@@ -17,6 +17,7 @@ public class CreateUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
+        getSupportActionBar().hide();
     }
 
     public void CreateUser(View view) throws  Exception{
