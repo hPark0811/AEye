@@ -13,9 +13,9 @@ exports.addUser = function(req, res){
         country: req.body.country
     });
     user.save((err)=>{
-        if(err) return next(err);
-        res.send('User added');
+        if(err) res.send(err);
     });
+    res.send('User added');
 };
 
 exports.findUserByEmail = function(req, res){
@@ -27,7 +27,7 @@ exports.findUserByEmail = function(req, res){
 }
 
 exports.deleteUser = function(req, res){
-    User.findByIdAndRemove(req.params.id, (err,todo)=>{
+    User.findByIdAndRemove(req.params.id, (err, todo)=>{
         if(err){
             res.send(err);
         }
