@@ -1,5 +1,6 @@
 package com.heung.mobileapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -14,7 +15,7 @@ public class AddAssociateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_account);
+        setContentView(R.layout.activity_add_associate);
     }
 
     public void AddAssociate(View view) throws Exception{
@@ -24,8 +25,19 @@ public class AddAssociateActivity extends AppCompatActivity {
         //Get UserID
         //get the email
         String email = CreateUserActivity.getEmail();
-        String userID = ServerAPIManager.getUserID(email).get("userID");
-        ServerAPIManager.addAssociate(userID,name, relationship, phone);
+        Thread thread = new Thread(){
+            @Override
+            public void run() {
+                try {
+                    String userID = ServerAPIManager.getUserID(email).get("userID");
+                    ServerAPIManager.addAssociate(userID,name, relationship, phone);
+                } catch (Exception e){
+                    System.out.println("Error with adding associate");
+                }
+            }
+        };
+        thread.start();
+        startActivity(new Intent(AddAssociateActivity.this, MainActivity.class));
 
     }
 }

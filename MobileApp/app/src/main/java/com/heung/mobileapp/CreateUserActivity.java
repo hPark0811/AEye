@@ -18,6 +18,7 @@ public class CreateUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
     }
+
     public void CreateUser(View view) throws  Exception{
         try{
             email = ((EditText)findViewById(R.id.email)).getText().toString();
