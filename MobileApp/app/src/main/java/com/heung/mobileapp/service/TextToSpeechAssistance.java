@@ -5,16 +5,15 @@ import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 
 import androidx.annotation.RequiresApi;
-
-import com.heung.mobileapp.MainActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Locale;
 
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class TextToSpeechAssistance {
     private TextToSpeech TTS;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public TextToSpeechAssistance(final MainActivity mainActivity) {
+    public TextToSpeechAssistance(final AppCompatActivity mainActivity) {
         this.TTS = new TextToSpeech(mainActivity, status -> {
             if (TTS.getEngines().size() == 0){
                 System.out.println("No Text To Speech Support Allowed!");
@@ -25,7 +24,6 @@ public class TextToSpeechAssistance {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void speak(String info) {
         TTS.speak(info, TextToSpeech.QUEUE_FLUSH, null, null);
     }
@@ -35,6 +33,7 @@ public class TextToSpeechAssistance {
         final Handler h = new Handler();
 
         Runnable r = new Runnable() {
+
 
             public void run() {
 

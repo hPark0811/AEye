@@ -18,7 +18,7 @@ public class APIManager extends BaseService {
     static final String VERSION = "2019-02-11";
     static final String MODEL_ID = "80a477c6-dd60-4ecd-b496-bab7e8f6c8d7";
 
-    public static void getVisualRecognitionData(File imagePath) {
+    public static void getVisualRecognitionData(File imagePath, String wanted) {
 
         IamAuthenticator authenticator = new IamAuthenticator(APIKEY);
         VisualRecognition visualRecognition = new VisualRecognition(VERSION, authenticator);
@@ -53,6 +53,7 @@ public class APIManager extends BaseService {
                     boolean valid = false;
                     for (ObjectDetail detail : response.getImages().get(0).getObjects().getCollections().get(0).getObjects()){
                         String obj = detail.getObject();
+                        if (!wanted.equals(obj)) break;
                         float score = detail.getScore();
                         System.out.println(obj + ": " + score);
                         valid = true;

@@ -39,8 +39,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void openCamera(){
-        startActivity(new Intent(MainActivity.this, RecordingActivity.class));
+    public void openCamera(String toPass){
+        startActivity(new Intent(MainActivity.this, RecordingActivity.class).putExtra("selected", toPass));
     }
-
 }

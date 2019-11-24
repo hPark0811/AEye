@@ -1,18 +1,17 @@
 package com.heung.mobileapp.service;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 
+import androidx.annotation.RequiresApi;
+
 import com.heung.mobileapp.MainActivity;
 
-import java.util.List;
-
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class SpeechRecognitionAssistance {
     private SpeechRecognizer speechRecognizer;
     private MainActivity main;
@@ -56,18 +55,19 @@ public class SpeechRecognitionAssistance {
         }
     }
 
+
     private void processSpeech(String speech){
+        String toPass;
         if (speech.contains("c")){
-            System.out.println("cup");
+            toPass = "cup";
         } else {
-            System.out.println("pen");
+            toPass = "mouse";
         }
         MainActivity.isListening = false;
-        main.openCamera();
+        main.openCamera(toPass);
     }
 
     public void startListening(){
-
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);

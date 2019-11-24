@@ -8,13 +8,18 @@ import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.heung.mobileapp.service.APIManager;
+import com.heung.mobileapp.service.SpeechRecognitionAssistance;
+import com.heung.mobileapp.service.TextToSpeechAssistance;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -23,8 +28,12 @@ import java.io.FileOutputStream;
 public class RecordingActivity extends AppCompatActivity {
     private Camera camera;
     private CameraPreview camPreview;
-    int x = 0;
+    private int x = 0;
+    private String selected;
+    private TextToSpeechAssistance myTTS;
+    private SpeechRecognitionAssistance SRA;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +41,8 @@ public class RecordingActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Record");
         getSupportActionBar().show();
 
+        selected = getIntent().getExtras().getString("selected");
+        ((TextView)findViewById(R.id.search)).setText("selected");
         FrameLayout preview = findViewById(R.id.cam_preview);
 
         if (camera != null) {
@@ -50,6 +61,10 @@ public class RecordingActivity extends AppCompatActivity {
         camera.setDisplayOrientation(90);
         camPreview = new CameraPreview(this, camera);
         preview.addView(camPreview);
+
+        myTTS = new TextToSpeechAssistance(this);
+        /*myTTS.speak("Looking for " + selected);
+        System.out.println("Looking for " + selected);*/
     }
 
     private void saveImage(Bitmap finalBitmap, String image_name) {
@@ -64,7 +79,7 @@ public class RecordingActivity extends AppCompatActivity {
             finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
             out.flush();
             out.close();
-            APIManager.getVisualRecognitionData(file);
+            APIManager.getVisualRecognitionData(file, selected);
         } catch (Exception e) {
             e.printStackTrace();
         }
