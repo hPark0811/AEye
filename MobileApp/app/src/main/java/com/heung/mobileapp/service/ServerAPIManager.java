@@ -121,8 +121,79 @@ public class ServerAPIManager {
             e.printStackTrace();
             System.out.println("Cant add associate");
         }
-
+        
         return null;
+    }
+    
+        public static void sendTextMessageToAll() throws Exception{
+        Thread thread = new Thread(){
+            @Override
+            public void run() {
+                try {
+                    java.net.URL url = new URL(URL + "/sendTextMessageToAll");
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setDoOutput(true);
+                    con.setRequestMethod("POST");
+                    con.setRequestProperty("Content-Type", "application/json");
 
+                    JSONObject json = new JSONObject();
+                    json.put("email", CreateUserActivity.getEmail());
+                    json.put("Body", "User "+CreateUserActivity.getEmail() + "is asking for help!");
+
+                    OutputStream os = con.getOutputStream();
+                    os.write(json.toString().getBytes());
+                    os.flush();
+
+                    BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                    String output;
+                    System.out.println("Output from Server .... \n");
+                    while ((output = br.readLine()) != null) {
+                        System.out.println(output);
+                    }
+                    con.disconnect();
+
+                } catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        };
+        thread.start();
+    }
+
+    public static void sendCallMessageToAll() throws Exception{
+        Thread thread = new Thread(){
+            @Override
+            public void run() {
+                try {
+                    java.net.URL url = new URL(URL + "/sendCallToAll");
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setDoOutput(true);
+                    con.setRequestMethod("POST");
+                    con.setRequestProperty("Content-Type", "application/json");
+
+                    JSONObject json = new JSONObject();
+                    json.put("email", CreateUserActivity.getEmail());
+                    json.put("Text", "User"+ CreateUserActivity.getEmail() + "IsAskingForHelp!");
+
+                    OutputStream os = con.getOutputStream();
+                    os.write(json.toString().getBytes());
+                    os.flush();
+
+                    BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                    String output;
+                    System.out.println("Output from Server .... \n");
+                    while ((output = br.readLine()) != null) {
+                        System.out.println(output);
+                    }
+                    con.disconnect();
+
+                } catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        };
+        thread.start();
     }
 }
