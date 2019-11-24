@@ -43,9 +43,7 @@ public class SpeechRecognitionAssistance {
                 }
 
                 @Override
-                public void onPartialResults(Bundle partialResults) {
-                    System.out.println("partialResults!");
-                }
+                public void onPartialResults(Bundle partialResults) { }
 
                 @Override
                 public void onEvent(int eventType, Bundle params) { }
@@ -59,7 +57,11 @@ public class SpeechRecognitionAssistance {
     }
 
     private void processSpeech(String speech){
-        System.out.println(speech);
+        if (speech.contains("c")){
+            System.out.println("cup");
+        } else {
+            System.out.println("pen");
+        }
         MainActivity.isListening = false;
         main.openCamera();
     }
