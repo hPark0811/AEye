@@ -25,11 +25,13 @@ public class AddAssociateActivity extends AppCompatActivity {
         //Get UserID
         //get the email
         String email = CreateUserActivity.getEmail();
+        System.out.println("_id is "+email);
         Thread thread = new Thread(){
             @Override
             public void run() {
                 try {
-                    String userID = ServerAPIManager.getUserID(email).get("userID");
+                    String userID = ServerAPIManager.getUserID(email).get("_id");
+                    System.out.println("Users ID is " + userID);
                     ServerAPIManager.addAssociate(userID,name, relationship, phone);
                 } catch (Exception e){
                     System.out.println("Error with adding associate");

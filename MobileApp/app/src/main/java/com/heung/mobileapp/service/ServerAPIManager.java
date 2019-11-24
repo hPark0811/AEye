@@ -1,5 +1,6 @@
 package com.heung.mobileapp.service;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -93,25 +94,35 @@ public class ServerAPIManager {
         thread.start();
     }
     public static Map<String, String> getUserID(String email) throws Exception{
-        StringBuilder result = new StringBuilder();
-        URL url = new URL(URL + "/user/" + email);
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("GET");
-        con.setConnectTimeout(1000);
-        InputStream in = new BufferedInputStream(con.getInputStream());
+        try{
+            StringBuilder result = new StringBuilder();
+            URL url = new URL(URL + "/user/" + email);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setConnectTimeout(1000);
+            InputStream in = new BufferedInputStream(con.getInputStream());
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
-        String line;
-        while ((line = reader.readLine()) != null) {
-            result.append(line);
+            String line;
+            while ((line = reader.readLine()) != null) {
+                result.append(line);
+            }
+            JSONArray jsonArray = new JSONArray(String.valueOf(result));
+            if (jsonArray.length() > 0){
+                Map<String, String> recMap = new HashMap<>();
+                recMap.put("_id", ((JSONObject)jsonArray.get(0)).get("_id").toString());
+                return recMap;
+            } else {
+                return null;
+            }
         }
-        JSONObject jsonObject = new JSONObject(String.valueOf(result));
-        Map<String, String> recMap = new HashMap<>();
+        catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Cant add associate");
+        }
 
-        recMap.put("userID", jsonObject.getString("userID"));
-        recMap.put("userID", jsonObject.getString("userID"));
+        return null;
 
-        return recMap;
     }
 }
