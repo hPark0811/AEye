@@ -77,11 +77,24 @@ public class SpeechRecognitionAssistance {
                 toPass = "no";
             }
             RecordingActivity.isListening = false;
+            
+            if(toPass.equals("yes")){
+                try{
+                    ServerAPIManager.sendCallMessageToAll();
+                }
+                catch (Exception eCall){
+                    try {
+                        ServerAPIManager.sendTextMessageToAll();
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
             System.out.println(toPass);
-            //@TODO MAKE MESSAGE
         }
-
     }
+}
 
     public void startListening(){
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
